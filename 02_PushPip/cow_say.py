@@ -30,7 +30,8 @@ parser.add_argument('-T', dest='tongue_string', default='  ', type=str,
 parser.add_argument('-l', action= 'store_true',
                     help='To list all cowfiles on the current COWPATH')                                      
 
-
+parser.add_argument('-W', dest='width', default=40, type=int,
+                    help='select the appearance of the cow\'s tongue')
 # -h? -n, -W column, -f cowfile
 args = parser.parse_args()
 # print(args.__dict__)
@@ -51,4 +52,5 @@ else:
     print(cowsay.cowsay(message = args.message, 
                         preset = preset,
                         eyes = args.eye_string[:2],
-                        tongue = args.tongue_string[:2]))
+                        tongue = args.tongue_string[:2],
+                        width = args.width))
