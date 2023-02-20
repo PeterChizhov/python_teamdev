@@ -3,8 +3,8 @@ import cowsay
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('message',
-                    help='message you want cow to say')
+parser.add_argument('message', nargs='?', default = '',
+                    help='message you want cow to say',)
 
 preset_names = ['b', 'd', 'g', 'p', 's', 't', 'w', 'y']
 preset_helps = ['initiates Borg mode',
@@ -25,23 +25,30 @@ for name, help in zip(preset_names, preset_helps):
 parser.add_argument('-e', dest='eye_string', default='OO', type=str,
                     help='select the appearance of the cow\'s eyes')
 parser.add_argument('-T', dest='tongue_string', default='  ', type=str,
-                    help='select the appearance of the cow\'s tongue')                    
+                    help='select the appearance of the cow\'s tongue')   
+# add -l
+parser.add_argument('-l', action= 'store_true',
+                    help='To list all cowfiles on the current COWPATH')                                      
 
+
+# -h? -n, -W column, -f cowfile
 args = parser.parse_args()
-# -[bdgpstwy]
+# print(args.__dict__)
+if args.l:
+    print(*cowsay.list_cows())
+else:
 
-no_preset_flag = True
-for preset in preset_names[::-1]:
-    if args.__dict__[preset]:
-        no_preset_flag = False
-        break 
+    # -[bdgpstwy]
+    no_preset_flag = True
+    for preset in preset_names[::-1]:
+        if args.__dict__[preset]:
+            no_preset_flag = False
+            break 
 
-if no_preset_flag:
-    preset = None
+    if no_preset_flag:
+        preset = None
 
-print(args.__dict__)
-
-print(cowsay.cowsay(message = args.message, 
-                    preset = preset,
-                    eyes = args.eye_string[:2],
-                    tongue = args.tongue_string[:2]))
+    print(cowsay.cowsay(message = args.message, 
+                        preset = preset,
+                        eyes = args.eye_string[:2],
+                        tongue = args.tongue_string[:2]))
