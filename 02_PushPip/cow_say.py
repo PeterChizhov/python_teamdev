@@ -15,33 +15,21 @@ preset_helps = ['initiates Borg mode',
                  'yields a tired cow',
                  'is somewhat the opposite of -t, and initiates wired mode',
                  'brings on the cow\'s youthful appearance']
+
 for name, help in zip(preset_names, preset_helps):
     parser.add_argument('-' + name,
                         help=help,
                         action='store_true'
                         )
-# parser.add_argument('-d',
-#                     help='causes the cow to appear dead',
-#                     action='store_true'
-#                     )
-# parser.add_argument('-d',
-#                     help='causes the cow to appear dead',
-#                     action='store_true'
-#                     )
-# parser.add_argument('-d',
-#                     help='causes the cow to appear dead',
-#                     action='store_true'
-#                     )
-# parser.add_argument('-d',
-#                     help='causes the cow to appear dead',
-#                     action='store_true'
-#                     )                                                            
+# adding eye and tongue
+parser.add_argument('-e', dest='eye_string', default='OO', type=str,
+                    help='select the appearance of the cow\'s eyes')
+parser.add_argument('-T', dest='tongue_string', default='  ', type=str,
+                    help='select the appearance of the cow\'s tongue')                    
 
 args = parser.parse_args()
 # -[bdgpstwy]
-# preset_dict = {'b': args.b,
-#                'd': args.d,
-#                'g', 'p', 's', 't', 'w', y}
+
 no_preset_flag = True
 for preset in preset_names[::-1]:
     if args.__dict__[preset]:
@@ -52,8 +40,8 @@ if no_preset_flag:
     preset = None
 
 print(args.__dict__)
-# print(args.__dict__['b'])
-# print(args)
-# print()
+
 print(cowsay.cowsay(message = args.message, 
-                    preset = preset))
+                    preset = preset,
+                    eyes = args.eye_string[:2],
+                    tongue = args.tongue_string[:2]))
