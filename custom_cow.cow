@@ -1,0 +1,8 @@
+$the_cow = <<
+         $thoughts
+          $thoughts
+        ^      ^
+         X   X
+        \______/
+
+input>>

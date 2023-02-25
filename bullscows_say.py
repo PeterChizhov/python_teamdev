@@ -4,6 +4,8 @@ import argparse
 import urllib.request
 import random
 
+MYCOWPATH = 'custom_cow.cow'
+
 parser = argparse.ArgumentParser()
 parser.add_argument('vocab_ref', nargs='+', default = '',
                     help='first - file or url containing vocabluary, second - length of word (optional)')
@@ -27,9 +29,8 @@ vocabulary = vocabulary.split()
 fix_length_vocab = list(filter(lambda s: len(s) == length, vocabulary))
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    cows_types = cowsay.list_cows()
     print(cowsay.cowsay(message = prompt,
-                        cow = random.choice(cows_types)))
+                        cowfile = cowsay.read_dot_cow(open(MYCOWPATH, mode='r'))))
     guess = input()
     guess = guess[:length]
     if valid is None:
@@ -38,7 +39,7 @@ def ask(prompt: str, valid: list[str] = None) -> str:
     while not guess in valid:
         print()
         print(cowsay.cowsay(message = f"Слово должно быть длины {length}, и из словаря. \n" + prompt,
-                            cow = random.choice(cows_types)))
+                            cowfile = cowsay.read_dot_cow(open(MYCOWPATH, mode='r'))))
         guess = input()
         guess = guess[:length]
     return guess
