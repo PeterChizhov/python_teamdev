@@ -53,7 +53,6 @@ if __name__ == '__main__':
     
     vocabulary = vocabulary.split()
     fix_length_vocab = list(filter(lambda s: len(s) == length, vocabulary))
-    print(fix_length_vocab)
 
     def ask(prompt: str, valid: list[str] = None) -> str:
         guess = input(prompt)
