@@ -2,6 +2,8 @@ import cmd
 import shlex
 import cowsay
 import argparse
+import pyreadline3
+import sys
 
 # list_cows, make_bubble, cowsay и cowthink
 parser = argparse.ArgumentParser()
@@ -26,15 +28,31 @@ class cmdLine(cmd.Cmd):
         -e eye_string
         -T tongue_string    
         '''
-        # print(message, cowname, eye_string, tongue_string)
-        print(args)
-        print(shlex.split(args))
-        # print(parser.parse_args(args.split()))
+
         params = parser.parse_args(shlex.split(args))
         print(cowsay.cowsay(message = params.message, 
                             cow = params.cow,
                             eyes = params.eye_string[:2],
                             tongue = params.tongue_string[:2]))
+   
+    def complete_cowsay(self, pfx, line, beg, end):
+        cows_lst = cowsay.list_cows()
+        eye_lst = ['00', 'oo', 'XX']
+        tongue_lst = ['U ', '__', '\/']
+        key_lst = ['-f', '-T', '-e']
+        # tmp_lst = []
+        tmp_lst = key_lst
+        if line[beg-3:beg].strip() == '-f': 
+            tmp_lst = cows_lst
+        elif line[beg-3:beg].strip() == '-T': 
+            tmp_lst = tongue_lst
+        elif line[beg-3:beg].strip() == '-e':
+            tmp_lst = eye_lst         
+        return [s for s in tmp_lst if s.startswith(pfx)]   
+                   
+    def do_list_cows(self, arg):
+        'list availible cows'
+        print(*cowsay.list_cows())                        
 
 
     def do_exit(self, arg):
